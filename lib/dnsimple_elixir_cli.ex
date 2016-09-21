@@ -118,11 +118,15 @@ defmodule DnsimpleElixirCli do
 
     Commands available:
 
-    * whoami                  Display account details
-    * contacts.list           List contacts in your account
-    * domains.list            List domains in your account
-    * domains.get name        Display details for a particular domain
-    * registrar.check name    Check if a domain is available for registration
+    * whoami                                  Display account details
+
+    * contacts.list                           List contacts in your account
+
+    * domains.list                            List domains in your account
+    * domains.get name                        Display details for a particular domain
+
+    * registrar.check name                    Check if a domain is available for registration
+    * registrar.register name registrant_id   Register a domain to the given registrant
     """
   end
 
