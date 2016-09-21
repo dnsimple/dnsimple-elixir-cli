@@ -1,13 +1,18 @@
 defmodule DnsimpleElixirCli do
   def main(args) do
-    Code.eval_file("local.exs", "config")
-    args |> parse_args |> process
+    args |> parse_args |> configure |> process
   end
 
   def config(app, kv) do
     Enum.each(kv, fn({k, v}) ->
       Application.put_env(app, k, v)
     end)
+  end
+
+  defp configure(args = {options, _}) do
+    env = options[:env] || "local"
+    Code.eval_file("#{env}.exs", "settings")
+    args
   end
 
   defp process({_options, ["whoami"]}) do
