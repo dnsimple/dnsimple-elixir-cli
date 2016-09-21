@@ -4,7 +4,7 @@ A simple CLI for the DNSimple v2 API.
 
 ## Configuration
 
-Create a file `config/local.exs` with the following:
+Create a file `settings/local.exs` with the following:
 
 ```elixir
 DnsimpleElixirCli.config :dnsimple,
@@ -20,6 +20,16 @@ DnsimpleElixirCli.config :dnsimple,
 ```
 
 Make sure to use a token generated in the sandbox as a token from production will not work in the sandbox.
+
+You can also create different settings by giving them whatever name you want and then using the `--env` switch when running the script to choose your settings.
+
+For example
+
+```sh
+./dnsimple_elixir_cli registrar.check example.com --env production
+```
+
+Would use `settings/production.exs` for its settings.
 
 ## Building
 
