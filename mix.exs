@@ -12,7 +12,7 @@ defmodule DnsimpleElixirCli.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :httpoison]]
+    [applications: [:logger, :dnsimple]]
   end
 
   defp deps do
