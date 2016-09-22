@@ -5,10 +5,11 @@ defmodule DnsimpleElixirCli do
     args |> parse_args |> configure |> process
   end
 
-  def config(app, kv) do
-    Enum.each(kv, fn({k, v}) ->
-      Application.put_env(app, k, v)
-    end)
+  defp parse_args(args) do
+    {options, args, _} = OptionParser.parse(args,
+      switches: [env: :string]
+    )
+    {options, args}
   end
 
   defp configure(args = {options, _}) do
@@ -49,6 +50,12 @@ defmodule DnsimpleElixirCli do
 
   # Internal functions
 
+  def config(app, kv) do
+    Enum.each(kv, fn({k, v}) ->
+      Application.put_env(app, k, v)
+    end)
+  end
+
   def whoami do
     case Dnsimple.Identity.whoami(client) do
       {:ok, response} ->
@@ -57,13 +64,6 @@ defmodule DnsimpleElixirCli do
         IO.puts "Failed to authenticate"
         Kernel.exit({:shutdown, 1})
     end
-  end
-
-  defp parse_args(args) do
-    {options, args, _} = OptionParser.parse(args,
-      switches: [command: :string]
-    )
-    {options, args}
   end
 
   defp client do
