@@ -36,3 +36,14 @@ Would use `settings/production.exs` for its settings.
 Build the escript with:
 
 `mix escript.build`
+
+## Examples
+
+```
+./dnsimple_elixir_cli whoami
+./dnsimple_elixir_cli contacts.list
+./dnsimple_elixir_cli domains.list
+./dnsimple_elixir_cli domains.get hotstufftonight.com
+./dnsimple_elixir_cli registrar.check itsadance.party
+./dnsimple_elixir_cli registrar.register itsadance.party 1
+```
