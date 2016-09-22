@@ -17,3 +17,4 @@ erl_crash.dump
 *.ez
 
 settings/*.exs
+dnsimple_cli
