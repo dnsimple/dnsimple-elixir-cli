@@ -2,7 +2,7 @@ defmodule DnsimpleElixirCli.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :dnsimple_elixir_cli,
+    [app: :dnsimple_cli,
      version: "0.1.0",
      elixir: "~> 1.3",
      escript: [main_module: DnsimpleElixirCli],
