@@ -10,7 +10,7 @@ defmodule DnsimpleElixirCli.Registrar do
           false -> IO.puts "Domain #{name} is not available for registration"
         end
       {:error, err} ->
-        IO.puts "Error checking domain availability: #{err.reason}"
+        IO.puts "Error checking domain availability: #{err.message}"
     end
   end
 
@@ -22,7 +22,7 @@ defmodule DnsimpleElixirCli.Registrar do
       {:ok, response} ->
         IO.puts "Domain #{name} registered! Expires on #{response.data.expires_on}"
       {:error, err} ->
-        IO.puts "Error registering domain: #{err.reason}"
+        IO.puts "Error registering domain: #{err.message}"
     end
   end
 end

@@ -12,8 +12,8 @@ defmodule DnsimpleElixirCli.Contacts do
       Enum.each(contacts, fn(contact) ->
         IO.puts "  * #{contact.id} : #{contact.first_name}"
       end)
-      {:error, _} ->
-        IO.puts "Error retrieving contacts"
+      {:error, err} ->
+        IO.puts "Error retrieving contacts: #{err.message}"
     end
   end
 

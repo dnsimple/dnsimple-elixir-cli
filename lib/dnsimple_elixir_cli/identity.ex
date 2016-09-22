@@ -8,10 +8,8 @@ defmodule DnsimpleElixirCli.Identity do
           Account ID: #{response.data.account.id}
           Account email: #{response.data.account.email}
         """
-      {:error, response} ->
-        IO.puts """
-        Failed to authenticate: #{response}
-        """
+      {:error, err} ->
+        IO.puts "Failed to authenticate: #{err.message}"
     end
   end
 end
