@@ -16,105 +16,27 @@ defmodule DnsimpleElixirCli do
   end
 
   defp process({_options, ["whoami"]}) do
-    case Dnsimple.Identity.whoami(client) do
-      {:ok, response} ->
-        IO.puts """
-        You are currently authenticated as:
-
-          Account ID: #{response.data.account.id}
-          Account email: #{response.data.account.email}
-        """
-      {:error, response} ->
-        IO.puts """
-        Failed to authenticate: #{response}
-        """
-    end
+    DnsimpleElixirCli.Identity.whoami(client)
   end
 
   defp process({_options, ["contacts.list"]}) do
-    IO.puts "Retrieving contact list..."
-    account = whoami
-    case Dnsimple.Contacts.list_contacts(client, account.id) do
-      {:ok, %Dnsimple.Response{data: contacts}} ->
-        IO.puts """
-        Contacts in the account #{account.email} (ID: #{account.id}):
-        """
-
-        Enum.each(contacts, fn(contact) ->
-          IO.puts "  * #{contact.id} : #{contact.first_name}"
-        end)
-      {:error, _} ->
-        IO.puts "Error retrieving contacts"
-    end
+    DnsimpleElixirCli.Contacts.list(client)
   end
 
   defp process({_options, ["domains.list"]}) do
-    IO.puts "Retrieving domain list..."
-    account = whoami
-    case Dnsimple.Domains.all_domains(client, account.id) do
-      {:ok, domains} ->
-        IO.puts """
-        Domains in the account #{account.email} (ID: #{account.id}):
-        """
-
-        Enum.each(domains, fn(domain) ->
-          IO.puts "  * #{domain.name}"
-        end)
-      {:error, _} ->
-        IO.puts "Error retrieving domains"
-    end
+    DnsimpleElixirCli.Domains.list(client)
   end
 
   defp process({_options, ["domains.get", name]}) do
-    account = whoami
-    IO.puts "Connected as #{account.email} (ID: #{account.id})"
-    IO.puts "Retrieving domain details..."
-    case Dnsimple.Domains.get_domain(client, account.id, name) do
-      {:ok, response} ->
-        IO.puts """
-        Details for #{response.data.name}:
-
-          State:      #{response.data.state}
-          Created at: #{response.data.created_at}
-          Updated at: #{response.data.updated_at}
-        """
-
-        if response.data.state == "registered" do
-          IO.puts """
-            Expires on: #{response.data.expires_on}
-          """
-        end
-
-      {:error, _} ->
-        IO.puts "Error retrieving domain details"
-    end
+    DnsimpleElixirCli.Domains.get(client, name)
   end
 
   defp process({_options, ["registrar.check", name]}) do
-    account = whoami
-    IO.puts "Connected as #{account.email} (ID: #{account.id})"
-    IO.puts "Checking domain availability..."
-    case Dnsimple.Registrar.check_domain(client, account.id, name) do
-      {:ok, response} ->
-        case response.data.available do
-          true -> IO.puts "Domain #{name} is available for registration"
-          false -> IO.puts "Domain #{name} is not available for registration"
-        end
-      {:error, _} ->
-        IO.puts "Error checking domain availability"
-    end
+    DnsimpleElixirCli.Registrar.check(client, name)
   end
 
   defp process({_options, ["registrar.register", name, registrant_id]}) do
-    account = whoami
-    IO.puts "Connected as #{account.email} (ID: #{account.id})"
-    IO.puts "Attempting to register domain..."
-    case Dnsimple.Registrar.register_domain(client, account.id, name, %{registrant_id: registrant_id}) do
-      {:ok, response} ->
-        IO.puts "Domain #{name} registered! Expires on #{response.data.expires_on}"
-      {:error, _} ->
-        IO.puts "Error registering domain"
-    end
+    DnsimpleElixirCli.Registrar.register(client, name, registrant_id)
   end
 
   defp process(_) do
@@ -154,7 +76,7 @@ defmodule DnsimpleElixirCli do
     Application.get_env(:dnsimple, :base_url, "https://api.dnsimple.com/")
   end
 
-  defp whoami do
+  def whoami do
     case Dnsimple.Identity.whoami(client) do
       {:ok, response} ->
         response.data.account

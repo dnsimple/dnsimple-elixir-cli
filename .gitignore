@@ -17,4 +17,3 @@ erl_crash.dump
 *.ez
 
 settings/*.exs
-dnsimple_elixir_cli
