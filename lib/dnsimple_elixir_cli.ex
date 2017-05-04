@@ -20,15 +20,15 @@ defmodule DnsimpleElixirCli do
 
   # The commands
 
-  defp process({_options, ["whoami"]}), do: DnsimpleElixirCli.Identity.whoami(client)
+  defp process({_options, ["whoami"]}), do: DnsimpleElixirCli.Identity.whoami(client())
 
-  defp process({_options, ["contacts.list"]}), do: DnsimpleElixirCli.Contacts.list(client)
+  defp process({_options, ["contacts.list"]}), do: DnsimpleElixirCli.Contacts.list(client())
 
-  defp process({_options, ["domains.list"]}), do: DnsimpleElixirCli.Domains.list(client)
-  defp process({_options, ["domains.get", name]}), do: DnsimpleElixirCli.Domains.get(client, name)
+  defp process({_options, ["domains.list"]}), do: DnsimpleElixirCli.Domains.list(client())
+  defp process({_options, ["domains.get", name]}), do: DnsimpleElixirCli.Domains.get(client(), name)
 
-  defp process({_options, ["registrar.check", name]}), do: DnsimpleElixirCli.Registrar.check(client, name)
-  defp process({_options, ["registrar.register", name, registrant_id]}), do: DnsimpleElixirCli.Registrar.register(client, name, registrant_id)
+  defp process({_options, ["registrar.check", name]}), do: DnsimpleElixirCli.Registrar.check(client(), name)
+  defp process({_options, ["registrar.register", name, registrant_id]}), do: DnsimpleElixirCli.Registrar.register(client(), name, registrant_id)
 
   defp process(_) do
     IO.puts """
@@ -57,7 +57,7 @@ defmodule DnsimpleElixirCli do
   end
 
   def whoami do
-    case Dnsimple.Identity.whoami(client) do
+    case Dnsimple.Identity.whoami(client()) do
       {:ok, response} ->
         response.data.account
       {:error, _} ->
@@ -67,7 +67,7 @@ defmodule DnsimpleElixirCli do
   end
 
   defp client do
-    %Dnsimple.Client{access_token: access_token, base_url: base_url}
+    %Dnsimple.Client{access_token: access_token(), base_url: base_url()}
   end
 
   defp access_token do
